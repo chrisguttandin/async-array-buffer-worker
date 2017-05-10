@@ -1,6 +1,5 @@
 describe('module', () => {
 
-    let millisecondsPerFrame;
     let worker;
 
     beforeEach(() => {
@@ -10,6 +9,7 @@ describe('module', () => {
     describe('allocate()', () => {
 
         let length;
+        let millisecondsPerFrame;
 
         beforeEach(function (done) {
             this.timeout(5000);
