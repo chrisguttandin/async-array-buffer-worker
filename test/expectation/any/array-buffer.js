@@ -2,13 +2,37 @@ describe('ArrayBuffer', () => {
 
     describe('constructor()', () => {
 
+        let millisecondsPerFrame;
         let length;
 
-        beforeEach((done) => {
+        beforeEach(function (done) {
+            this.timeout(5000);
+
             length = 2147479551;
 
             // Wait some time to allow the browser to warm up.
-            setTimeout(done, 1000);
+            setTimeout(() => {
+                let remainingCycles = 10;
+                let timeAtFirstCycle;
+
+                const cycle = () => {
+                    if (remainingCycles === 10) {
+                        timeAtFirstCycle = performance.now();
+                    }
+
+                    if (remainingCycles === 0) {
+                        millisecondsPerFrame = (performance.now() - timeAtFirstCycle) / 10;
+
+                        done();
+                    } else {
+                        remainingCycles -= 1;
+
+                        requestAnimationFrame(() => cycle());
+                    }
+                };
+
+                requestAnimationFrame(() => cycle());
+            }, 1000);
         });
 
         it('should block the main thread', function (done) {
@@ -18,8 +42,6 @@ describe('ArrayBuffer', () => {
             let remainingMinimalCycles = 10;
             let timeAtLastCycle = null;
 
-            const budget = (1000 / 20);
-
             const cycle = () => {
                 const now = performance.now();
 
@@ -28,9 +50,9 @@ describe('ArrayBuffer', () => {
                         const elapsedTime = now - timeAtLastCycle;
 
                         if (remainingMinimalCycles === 7) {
-                            expect(elapsedTime).to.be.above(budget);
+                            expect(elapsedTime).to.be.above(millisecondsPerFrame / 3);
                         } else {
-                            expect(elapsedTime).to.be.below(budget);
+                            expect(elapsedTime).to.be.below(millisecondsPerFrame * 3);
                         }
 
                         remainingMinimalCycles -= 1;
