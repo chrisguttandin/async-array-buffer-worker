@@ -43,7 +43,7 @@ describe('module', () => {
             }, 1000);
         });
 
-        it('should keep on running at least at 20 frames per second', (done) => {
+        it('should not block the main thread', function (done) {
             let receivedBuffer = null;
             let remainingMinimalCycles = 10;
             let timeAtLastCycle = null;
