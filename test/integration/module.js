@@ -44,6 +44,8 @@ describe('module', () => {
         });
 
         it('should not block the main thread', function (done) {
+            this.timeout(5000);
+
             let receivedBuffer = null;
             let remainingMinimalCycles = 10;
             let timeAtLastCycle = null;
