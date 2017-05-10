@@ -55,7 +55,7 @@ describe('module', () => {
                     if (timeAtLastCycle !== null) {
                         const elapsedTime = now - timeAtLastCycle;
 
-                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 3);
+                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 10);
 
                         remainingMinimalCycles -= 1;
 
