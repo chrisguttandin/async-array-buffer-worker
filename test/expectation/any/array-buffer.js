@@ -12,16 +12,18 @@ describe('ArrayBuffer', () => {
 
             // Wait some time to allow the browser to warm up.
             setTimeout(() => {
-                let remainingCycles = 10;
+                const numberOfCycles = 50;
+
+                let remainingCycles = numberOfCycles;
                 let timeAtFirstCycle;
 
                 const cycle = () => {
-                    if (remainingCycles === 10) {
+                    if (remainingCycles === numberOfCycles) {
                         timeAtFirstCycle = performance.now();
                     }
 
                     if (remainingCycles === 0) {
-                        millisecondsPerFrame = (performance.now() - timeAtFirstCycle) / 10;
+                        millisecondsPerFrame = (performance.now() - timeAtFirstCycle) / numberOfCycles;
 
                         done();
                     } else {
