@@ -8,12 +8,14 @@ describe('module', () => {
 
     describe('allocate()', () => {
 
+        let id;
         let length;
         let millisecondsPerFrame;
 
         beforeEach(function (done) {
             this.timeout(5000);
 
+            id = 33;
             length = 2147479551;
 
             // Wait some time to allow the browser to warm up.
@@ -62,7 +64,7 @@ describe('module', () => {
                         remainingMinimalCycles -= 1;
 
                         if (remainingMinimalCycles === 7) {
-                            worker.postMessage({ action: 'allocate', length });
+                            worker.postMessage({ id, method: 'allocate', params: { length } });
                         } else if (receivedBuffer !== null && remainingMinimalCycles <= 0) {
                             done();
                         }
@@ -78,10 +80,16 @@ describe('module', () => {
 
             requestAnimationFrame(() => cycle());
 
-            worker.addEventListener('message', ({ data: { arrayBuffer } }) => {
-                expect(arrayBuffer.byteLength).to.equal(length);
+            worker.addEventListener('message', ({ data }) => {
+                receivedBuffer = data.result.arrayBuffer;
 
-                receivedBuffer = arrayBuffer;
+                expect(receivedBuffer.byteLength).to.equal(length);
+
+                expect(data).to.deep.equal({
+                    error: null,
+                    id,
+                    result: { arrayBuffer: receivedBuffer }
+                });
             });
         });
 

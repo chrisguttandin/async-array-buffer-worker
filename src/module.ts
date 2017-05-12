@@ -1,19 +1,31 @@
 import { allocate } from './helpers/allocate';
-import { TAsyncArrayBufferEvent } from './types';
+import { IAllocateResponse, IBrokerEvent, IErrorNotification, IErrorResponse } from './interfaces';
 
 export * from './interfaces';
 export * from './types';
 
-addEventListener('message', ({ data }: TAsyncArrayBufferEvent) => {
+addEventListener('message', ({ data }: IBrokerEvent) => {
     try {
-        if (data.action === 'allocate') {
-            const arrayBuffer = allocate(data.length);
+        if (data.method === 'allocate') {
+            const { id, params: { length } } = data;
 
-            postMessage({ arrayBuffer }, [ arrayBuffer ]);
-        } else if (data.action === 'deallocate') {
+            const arrayBuffer = allocate(length);
+
+            postMessage(<IAllocateResponse> {
+                error: null,
+                id,
+                result: { arrayBuffer }
+            }, [ arrayBuffer ]);
+        } else if (data.method === 'deallocate') {
             // Just accept the incoming event.
         }
     } catch (err) {
-        postMessage({ err: { message: err.message } });
+        postMessage(<IErrorNotification | IErrorResponse> {
+            error: {
+                message: err.message
+            },
+            id: data.id,
+            result: null
+        });
     }
 });
