@@ -1,7 +1,5 @@
 # async-array-buffer-worker
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/chrisguttandin/async-array-buffer-worker.svg)](https://greenkeeper.io/)
-
 **The worker which is used by the async-array-buffer package.**
 
 [![tests](https://img.shields.io/travis/chrisguttandin/async-array-buffer-worker/master.svg?style=flat-square)](https://travis-ci.org/chrisguttandin/async-array-buffer-worker)
