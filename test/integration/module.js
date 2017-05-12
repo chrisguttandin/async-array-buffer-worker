@@ -49,17 +49,20 @@ describe('module', () => {
             this.timeout(5000);
 
             let receivedBuffer = null;
-            let remainingMinimalCycles = 10;
-            let timeAtLastCycle = null;
+            let remainingMinimalCycles = 50;
+            let timeOneCycleAgo = null;
+            let timeTwoCyclesAgo = null;
 
             const cycle = () => {
                 const now = performance.now();
 
                 try {
-                    if (timeAtLastCycle !== null) {
-                        const elapsedTime = now - timeAtLastCycle;
+                    if (timeTwoCyclesAgo !== null) {
+                        // Compute the time that elapsed during the last two cycles.
+                        const elapsedTime = now - timeTwoCyclesAgo;
 
-                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 10);
+                        // Allow the frame to be ten times as long as an average frame.
+                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 2 * 10);
 
                         remainingMinimalCycles -= 1;
 
@@ -70,7 +73,8 @@ describe('module', () => {
                         }
                     }
 
-                    timeAtLastCycle = now;
+                    timeTwoCyclesAgo = timeOneCycleAgo;
+                    timeOneCycleAgo = now;
 
                     requestAnimationFrame(() => cycle());
                 } catch (err) {
