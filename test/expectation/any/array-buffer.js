@@ -9,7 +9,7 @@ describe('ArrayBuffer', () => {
         });
 
         it('should block the main thread', function () {
-            this.timeout(5000);
+            this.timeout(10000);
 
             let lastNow = performance.now();
             let currentNow = performance.now();
