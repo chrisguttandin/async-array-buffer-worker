@@ -5,7 +5,11 @@ describe('ArrayBuffer', () => {
         let length;
 
         beforeEach(() => {
-            length = 2147479551;
+            /*
+             * 2147479551 is the largest possible length but an ArrayBuffer of that size can't be used by Chrome and Safari on
+             * Sauce Labs. However a size of 200,000,000 bytes is enough to let the test pass.
+             */
+            length = 200000000;
         });
 
         it('should block the main thread', function () {
