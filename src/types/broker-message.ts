@@ -1,3 +1,3 @@
-import { IAllocateRequest, IDeallocateNotification } from '../interfaces';
+import { IAllocateRequest, IConnectRequest, IDeallocateNotification, IDisconnectRequest } from '../interfaces';
 
-export type TBrokerMessage = IAllocateRequest | IDeallocateNotification;
+export type TBrokerMessage = IAllocateRequest | IConnectRequest | IDeallocateNotification | IDisconnectRequest;

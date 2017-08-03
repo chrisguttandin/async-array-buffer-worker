@@ -104,4 +104,122 @@ describe('module', () => {
 
     });
 
+    describe('connect()', () => {
+
+        let connectRequestId;
+        let ports;
+
+        beforeEach(() => {
+            connectRequestId = 823;
+
+            const messageChannel = new MessageChannel();
+
+            ports = [ messageChannel.port1, messageChannel.port2 ];
+        });
+
+        it('should connect a port', function (done) {
+            this.timeout(6000);
+
+            worker.addEventListener('message', ({ data }) => {
+                expect(data).to.deep.equal({
+                    error: null,
+                    id: connectRequestId,
+                    result: null
+                });
+
+                done();
+            });
+
+            worker.postMessage({
+                id: connectRequestId,
+                method: 'connect',
+                params: { port: ports[0] }
+            }, [
+                ports[0]
+            ]);
+        });
+
+        it('should communicate via a connected port', function (done) {
+            this.timeout(6000);
+
+            const allocateRequestId = 1982;
+            const length = 178;
+
+            ports[1].start();
+            ports[1].addEventListener('message', ({ data }) => {
+                const receivedBuffer = data.result.arrayBuffer;
+
+                expect(receivedBuffer.byteLength).to.equal(length);
+
+                expect(data).to.deep.equal({
+                    error: null,
+                    id: allocateRequestId,
+                    result: { arrayBuffer: receivedBuffer }
+                });
+
+                done();
+            });
+
+            worker.addEventListener('message', ({ data }) => {
+                expect(data).to.deep.equal({
+                    error: null,
+                    id: connectRequestId,
+                    result: null
+                });
+
+                ports[1].postMessage({
+                    id: allocateRequestId,
+                    method: 'allocate',
+                    params: { length }
+                });
+            });
+
+            worker.postMessage({
+                id: connectRequestId,
+                method: 'connect',
+                params: { port: ports[0] }
+            }, [
+                ports[0]
+            ]);
+        });
+
+    });
+
+    describe('disconnect()', () => {
+
+        let disconnectRequestId;
+        let ports;
+
+        beforeEach(() => {
+            disconnectRequestId = 823;
+
+            const messageChannel = new MessageChannel();
+
+            ports = [ messageChannel.port1, messageChannel.port2 ];
+        });
+
+        it('should disconnect a port', function (done) {
+            this.timeout(6000);
+
+            worker.addEventListener('message', ({ data }) => {
+                expect(data).to.deep.equal({
+                    error: null,
+                    id: disconnectRequestId,
+                    result: null
+                });
+
+                done();
+            });
+
+            worker.postMessage({
+                id: disconnectRequestId,
+                method: 'disconnect',
+                params: { port: ports[0] }
+            }, [
+                ports[0]
+            ]);
+        });
+
+    });
+
 });

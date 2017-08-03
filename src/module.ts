@@ -1,26 +1,39 @@
 import { allocate } from './helpers/allocate';
-import { IAllocateResponse, IBrokerEvent, IErrorNotification, IErrorResponse } from './interfaces';
+import { IAllocateResponse, IBrokerEvent, IConnectResponse, IDisconnectResponse, IErrorNotification, IErrorResponse } from './interfaces';
 
 export * from './interfaces';
 export * from './types';
 
-addEventListener('message', ({ data }: IBrokerEvent) => {
+const handleEvent = (receiver: MessagePort, { data }: IBrokerEvent) => {
     try {
         if (data.method === 'allocate') {
             const { id, params: { length } } = data;
 
             const arrayBuffer = allocate(length);
 
-            postMessage(<IAllocateResponse> {
+            receiver.postMessage(<IAllocateResponse> {
                 error: null,
                 id,
                 result: { arrayBuffer }
             }, [ arrayBuffer ]);
+        } else if (data.method === 'connect') {
+            const { id, params: { port } } = data;
+
+            port.start();
+            port.addEventListener('message', handleEvent.bind(null, port));
+
+            receiver.postMessage(<IConnectResponse> { error: null, id, result: null });
         } else if (data.method === 'deallocate') {
             // Just accept the incoming event.
+        } else if (data.method === 'disconnect') {
+            const { id, params: { port } } = data;
+
+            port.close();
+
+            receiver.postMessage(<IDisconnectResponse> { error: null, id, result: null });
         }
     } catch (err) {
-        postMessage(<IErrorNotification | IErrorResponse> {
+        receiver.postMessage(<IErrorNotification | IErrorResponse> {
             error: {
                 message: err.message
             },
@@ -28,4 +41,6 @@ addEventListener('message', ({ data }: IBrokerEvent) => {
             result: null
         });
     }
-});
+};
+
+addEventListener('message', handleEvent.bind(null, self));
