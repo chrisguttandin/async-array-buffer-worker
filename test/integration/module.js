@@ -82,7 +82,7 @@ describe('module', () => {
                     timeOneCycleAgo = now;
 
                     requestAnimationFrame(() => cycle());
-                } catch (err) {
+                } catch (err) {
                     done(err);
                 }
             };
