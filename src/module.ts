@@ -1,4 +1,4 @@
-import { allocate } from './helpers/allocate';
+import { allocate } from './helpers/allocate';
 import { IAllocateResponse, IBrokerEvent, IConnectResponse, IDisconnectResponse, IErrorNotification, IErrorResponse } from './interfaces';
 
 export * from './interfaces';
@@ -33,7 +33,7 @@ const handleEvent = (receiver: MessagePort, { data }: IBrokerEvent) => {
             receiver.postMessage(<IDisconnectResponse> { error: null, id, result: null });
         }
     } catch (err) {
-        receiver.postMessage(<IErrorNotification | IErrorResponse> {
+        receiver.postMessage(<IErrorNotification | IErrorResponse> {
             error: {
                 message: err.message
             },
