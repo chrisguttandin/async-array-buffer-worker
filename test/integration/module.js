@@ -18,7 +18,7 @@ describe('module', () => {
         let millisecondsPerFrame;
 
         beforeEach(function (done) {
-            this.timeout(5000);
+            this.timeout(10000);
 
             id = 33;
             length = 2147479551;
