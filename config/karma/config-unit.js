@@ -4,7 +4,7 @@ module.exports = (config) => {
 
         basePath: '../../',
 
-        browserNoActivityTimeout: 300000,
+        browserNoActivityTimeout: 360000,
 
         client: {
             mochaWebWorker: {
