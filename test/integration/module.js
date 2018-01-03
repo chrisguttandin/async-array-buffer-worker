@@ -90,14 +90,13 @@ describe('module', () => {
             requestAnimationFrame(() => cycle());
 
             worker.addEventListener('message', ({ data }) => {
-                receivedBuffer = data.result.arrayBuffer;
+                receivedBuffer = data.result;
 
                 expect(receivedBuffer.byteLength).to.equal(length);
 
                 expect(data).to.deep.equal({
-                    error: null,
                     id,
-                    result: { arrayBuffer: receivedBuffer }
+                    result: receivedBuffer
                 });
             });
         });
@@ -122,7 +121,6 @@ describe('module', () => {
 
             worker.addEventListener('message', ({ data }) => {
                 expect(data).to.deep.equal({
-                    error: null,
                     id: connectRequestId,
                     result: null
                 });
@@ -147,14 +145,13 @@ describe('module', () => {
 
             ports[1].start();
             ports[1].addEventListener('message', ({ data }) => {
-                const receivedBuffer = data.result.arrayBuffer;
+                const receivedBuffer = data.result;
 
                 expect(receivedBuffer.byteLength).to.equal(length);
 
                 expect(data).to.deep.equal({
-                    error: null,
                     id: allocateRequestId,
-                    result: { arrayBuffer: receivedBuffer }
+                    result: receivedBuffer
                 });
 
                 done();
@@ -162,7 +159,6 @@ describe('module', () => {
 
             worker.addEventListener('message', ({ data }) => {
                 expect(data).to.deep.equal({
-                    error: null,
                     id: connectRequestId,
                     result: null
                 });
@@ -185,6 +181,35 @@ describe('module', () => {
 
     });
 
+    describe('deallocate()', () => {
+
+        let arrayBuffer;
+
+        beforeEach(() => {
+            arrayBuffer = new ArrayBuffer(23);
+        });
+
+        it('should not send a response', function (done) {
+            this.timeout(6000);
+
+            worker.addEventListener('message', () => {
+                done(new Error('This should never be called.'));
+            });
+
+            worker.postMessage({
+                id: null,
+                method: 'deallocate',
+                params: { arrayBuffer }
+            }, [
+                arrayBuffer
+            ]);
+
+            // Wait some time to be sure that there is no response coming back from the worker.
+            setTimeout(done, 2000);
+        });
+
+    });
+
     describe('disconnect()', () => {
 
         let disconnectRequestId;
@@ -203,7 +228,6 @@ describe('module', () => {
 
             worker.addEventListener('message', ({ data }) => {
                 expect(data).to.deep.equal({
-                    error: null,
                     id: disconnectRequestId,
                     result: null
                 });

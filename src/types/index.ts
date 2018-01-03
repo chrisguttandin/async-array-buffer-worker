@@ -1,2 +1,1 @@
-export * from './broker-message';
-export * from './worker-message';
+export * from './array-buffer-worker-definition';

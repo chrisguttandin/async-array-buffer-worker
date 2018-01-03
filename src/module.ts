@@ -1,46 +1,19 @@
+import { createWorker } from 'worker-factory';
 import { allocate } from './helpers/allocate';
-import { IAllocateResponse, IBrokerEvent, IConnectResponse, IDisconnectResponse, IErrorNotification, IErrorResponse } from './interfaces';
+import { IArrayBufferWorkerCustomDefinition } from './interfaces';
 
 export * from './interfaces';
 export * from './types';
 
-const handleEvent = (receiver: MessagePort, { data }: IBrokerEvent) => {
-    try {
-        if (data.method === 'allocate') {
-            const { id, params: { length } } = data;
+createWorker<IArrayBufferWorkerCustomDefinition>(self, {
+    allocate: ({ length }) => {
+        const arrayBuffer = allocate(length);
 
-            const arrayBuffer = allocate(length);
+        return { result: arrayBuffer, transferables: [ arrayBuffer ] };
+    },
+    deallocate: (/* arrayBuffer */) => {
+        // Just accept the arrayBuffer.
 
-            receiver.postMessage(<IAllocateResponse> {
-                error: null,
-                id,
-                result: { arrayBuffer }
-            }, [ arrayBuffer ]);
-        } else if (data.method === 'connect') {
-            const { id, params: { port } } = data;
-
-            port.start();
-            port.addEventListener('message', handleEvent.bind(null, port));
-
-            receiver.postMessage(<IConnectResponse> { error: null, id, result: null });
-        } else if (data.method === 'deallocate') {
-            // Just accept the incoming event.
-        } else if (data.method === 'disconnect') {
-            const { id, params: { port } } = data;
-
-            port.close();
-
-            receiver.postMessage(<IDisconnectResponse> { error: null, id, result: null });
-        }
-    } catch (err) {
-        receiver.postMessage(<IErrorNotification | IErrorResponse> {
-            error: {
-                message: err.message
-            },
-            id: data.id,
-            result: null
-        });
+        return { result: undefined };
     }
-};
-
-addEventListener('message', handleEvent.bind(null, self));
+});
