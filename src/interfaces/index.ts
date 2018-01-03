@@ -1,1 +1,1 @@
-export * from './array-buffer-worker-custom-definition';
+export * from './async-array-buffer-worker-custom-definition';

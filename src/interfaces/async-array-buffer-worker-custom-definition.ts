@@ -1,6 +1,6 @@
 import { IWorkerDefinition } from 'worker-factory';
 
-export interface IArrayBufferWorkerCustomDefinition extends IWorkerDefinition {
+export interface IAsyncArrayBufferWorkerCustomDefinition extends IWorkerDefinition {
 
     allocate: {
 
