@@ -23,14 +23,20 @@ describe('ArrayBuffer', () => {
             let lastNow = performance.now();
             let currentNow = performance.now();
 
-            expect(currentNow - lastNow).to.be.below(50);
+            expect(currentNow - lastNow).to.be.below(10);
+
+            lastNow = performance.now();
 
             new ArrayBuffer(length);
 
-            lastNow = currentNow;
             currentNow = performance.now();
 
-            expect(currentNow - lastNow).to.be.above(50);
+            expect(currentNow - lastNow).to.be.above(10);
+
+            lastNow = performance.now();
+            currentNow = performance.now();
+
+            expect(currentNow - lastNow).to.be.below(10);
         });
 
     });
