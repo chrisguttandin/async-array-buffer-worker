@@ -3,7 +3,7 @@ import { allocate } from '../../../src/helpers/allocate';
 describe('allocate', () => {
 
     after((done) => {
-        // @todo This is a optimistic fix to prevent the famous 'Some of your tests did a full page reload!' error.
+        // @todo This is an optimistic fix to prevent the famous 'Some of your tests did a full page reload!' error.
         setTimeout(done, 1000);
     });
 
