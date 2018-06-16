@@ -62,8 +62,8 @@ describe('module', () => {
                     if (timeOneCycleAgo !== null) {
                         const elapsedTime = now - timeOneCycleAgo;
 
-                        // Allow the frame to be two times as long as an average frame.
-                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 2);
+                        // Allow the frame to be three times as long as an average frame.
+                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 3);
 
                         remainingMinimalCycles -= 1;
 
