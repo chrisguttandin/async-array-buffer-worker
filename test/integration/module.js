@@ -30,23 +30,23 @@ describe('module', () => {
                 let remainingCycles = numberOfCycles;
                 let timeAtFirstCycle;
 
-                const cycle = () => {
+                const cycle = (now) => {
                     if (remainingCycles === numberOfCycles) {
-                        timeAtFirstCycle = performance.now();
+                        timeAtFirstCycle = now;
                     }
 
                     if (remainingCycles === 0) {
-                        millisecondsPerFrame = (performance.now() - timeAtFirstCycle) / numberOfCycles;
+                        millisecondsPerFrame = (now - timeAtFirstCycle) / numberOfCycles;
 
                         done();
                     } else {
                         remainingCycles -= 1;
 
-                        requestAnimationFrame(() => cycle());
+                        requestAnimationFrame(cycle);
                     }
                 };
 
-                requestAnimationFrame(() => cycle());
+                requestAnimationFrame(cycle);
             }, 1000);
         });
 
@@ -56,18 +56,14 @@ describe('module', () => {
             let receivedBuffer = null;
             let remainingMinimalCycles = 50;
             let timeOneCycleAgo = null;
-            let timeTwoCyclesAgo = null;
 
-            const cycle = () => {
-                const now = performance.now();
-
+            const cycle = (now) => {
                 try {
-                    if (timeTwoCyclesAgo !== null) {
-                        // Compute the time that elapsed during the last two cycles.
-                        const elapsedTime = now - timeTwoCyclesAgo;
+                    if (timeOneCycleAgo !== null) {
+                        const elapsedTime = now - timeOneCycleAgo;
 
-                        // Allow the frame to be ten times as long as an average frame.
-                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 2 * 10);
+                        // Allow the frame to be two times as long as an average frame.
+                        expect(elapsedTime).to.be.below(millisecondsPerFrame * 2);
 
                         remainingMinimalCycles -= 1;
 
@@ -78,16 +74,15 @@ describe('module', () => {
                         }
                     }
 
-                    timeTwoCyclesAgo = timeOneCycleAgo;
                     timeOneCycleAgo = now;
 
-                    requestAnimationFrame(() => cycle());
+                    requestAnimationFrame(cycle);
                 } catch (err) {
                     done(err);
                 }
             };
 
-            requestAnimationFrame(() => cycle());
+            requestAnimationFrame(cycle);
 
             worker.addEventListener('message', ({ data }) => {
                 receivedBuffer = data.result;
