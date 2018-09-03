@@ -60,8 +60,7 @@ module.exports = (config) => {
         config.set({
 
             browsers: [
-                'ChromeSauceLabs',
-                'FirefoxSauceLabs'
+                'ChromeSauceLabs'
                 /*
                  * @todo Enable tests in Safari again when it supports transferables again.
                  * 'SafariSauceLabs'
@@ -98,9 +97,7 @@ module.exports = (config) => {
 
             browsers: [
                 'ChromeHeadless',
-                'ChromeCanaryHeadless',
-                'FirefoxHeadless',
-                'FirefoxDeveloperHeadless'
+                'ChromeCanaryHeadless'
                 /*
                  * @todo Enable tests in Safari again when it supports transferables again.
                  * 'Safari'
