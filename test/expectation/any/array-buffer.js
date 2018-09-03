@@ -23,7 +23,7 @@ describe('ArrayBuffer', () => {
             let lastNow = performance.now();
             let currentNow = performance.now();
 
-            expect(currentNow - lastNow).to.be.below(10);
+            expect(currentNow - lastNow).to.be.below(100);
 
             lastNow = performance.now();
 
@@ -31,12 +31,12 @@ describe('ArrayBuffer', () => {
 
             currentNow = performance.now();
 
-            expect(currentNow - lastNow).to.be.above(10);
+            expect(currentNow - lastNow).to.be.above(100);
 
             lastNow = performance.now();
             currentNow = performance.now();
 
-            expect(currentNow - lastNow).to.be.below(10);
+            expect(currentNow - lastNow).to.be.below(100);
         });
 
     });
