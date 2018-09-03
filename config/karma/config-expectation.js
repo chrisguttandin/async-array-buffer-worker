@@ -60,11 +60,8 @@ module.exports = (config) => {
         config.set({
 
             browsers: [
-                'ChromeSauceLabs'
-                /*
-                 * @todo Enable tests in Safari again when it supports transferables again.
-                 * 'SafariSauceLabs'
-                 */
+                'ChromeSauceLabs',
+                'SafariSauceLabs'
             ],
 
             captureTimeout: 120000,
@@ -97,11 +94,8 @@ module.exports = (config) => {
 
             browsers: [
                 'ChromeHeadless',
-                'ChromeCanaryHeadless'
-                /*
-                 * @todo Enable tests in Safari again when it supports transferables again.
-                 * 'Safari'
-                 */
+                'ChromeCanaryHeadless',
+                'Safari'
             ]
 
         });
