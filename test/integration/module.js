@@ -8,7 +8,7 @@ describe('module', () => {
     });
 
     beforeEach(() => {
-        worker = new Worker('base/src/module.ts');
+        worker = new Worker('base/src/module.js');
     });
 
     describe('allocate()', () => {
