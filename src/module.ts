@@ -1,11 +1,11 @@
-import { createWorker } from 'worker-factory';
+import { TWorkerImplementation, createWorker } from 'worker-factory';
 import { allocate } from './helpers/allocate';
 import { IAsyncArrayBufferWorkerCustomDefinition } from './interfaces';
 
 export * from './interfaces';
 export * from './types';
 
-createWorker<IAsyncArrayBufferWorkerCustomDefinition>(self, {
+createWorker<IAsyncArrayBufferWorkerCustomDefinition>(self, <TWorkerImplementation<IAsyncArrayBufferWorkerCustomDefinition>> {
     allocate: ({ length }) => {
         const arrayBuffer = allocate(length);
 
