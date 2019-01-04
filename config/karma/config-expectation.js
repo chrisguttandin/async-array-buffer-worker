@@ -8,8 +8,6 @@ module.exports = (config) => {
 
         browserNoActivityTimeout: 420000,
 
-        concurrency: 1,
-
         files: [
             {
                 included: false,
@@ -96,7 +94,9 @@ module.exports = (config) => {
                 'ChromeHeadless',
                 // @todo 'ChromeCanaryHeadless',
                 'Safari'
-            ]
+            ],
+
+            concurrency: 1
 
         });
 

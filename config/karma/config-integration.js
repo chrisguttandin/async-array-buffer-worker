@@ -8,8 +8,6 @@ module.exports = (config) => {
 
         browserNoActivityTimeout: 420000,
 
-        concurrency: 1,
-
         files: [
             {
                 included: false,
@@ -105,7 +103,9 @@ module.exports = (config) => {
                  * @todo Enable tests in Safari again when it supports transferables again.
                  * 'Safari'
                  */
-            ]
+            ],
+
+            concurrency: 1
 
         });
 
