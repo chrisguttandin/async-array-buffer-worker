@@ -66,7 +66,7 @@ module.exports = (config) => {
                  */
             ],
 
-            captureTimeout: 120000,
+            captureTimeout: 240000,
 
             customLaunchers: {
                 ChromeSauceLabs: {
