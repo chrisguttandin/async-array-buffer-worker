@@ -62,7 +62,7 @@ module.exports = (config) => {
                 'SafariSauceLabs'
             ],
 
-            captureTimeout: 240000,
+            captureTimeout: 480000,
 
             customLaunchers: {
                 ChromeSauceLabs: {
