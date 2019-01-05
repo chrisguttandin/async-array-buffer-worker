@@ -7,5 +7,10 @@ module.exports = {
     },
     'lint': {
         cmd: 'tslint --config config/tslint/src.json --project src/tsconfig.json src/*.ts src/**/*.ts'
+    },
+    'test': {
+        cmd: `karma start config/karma/config-integration.js --single-run \\
+            && karma start config/karma/config-unit.js --single-run \\
+            && karma start config/karma/config-expectation.js --single-run`
     }
 };

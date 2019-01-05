@@ -14,8 +14,6 @@ module.exports = {
         'sh:lint'
     ],
     test: [
-        'karma:test-integration',
-        'karma:test-unit',
-        'karma:expectation'
+        'sh:test'
     ]
 };
