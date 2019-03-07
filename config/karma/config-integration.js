@@ -96,7 +96,6 @@ module.exports = (config) => {
 
             browsers: [
                 'ChromeHeadless',
-                'ChromeCanaryHeadless',
                 'FirefoxHeadless',
                 'FirefoxDeveloperHeadless'
                 /*
