@@ -92,7 +92,7 @@ module.exports = (config) => {
 
             browsers: [
                 'ChromeHeadless',
-                // @todo 'ChromeCanaryHeadless',
+                'ChromeCanaryHeadless',
                 'Safari'
             ],
 
