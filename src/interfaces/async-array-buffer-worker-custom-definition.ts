@@ -30,7 +30,7 @@ export interface IAsyncArrayBufferWorkerCustomDefinition extends IWorkerDefiniti
 
         response: {
 
-            result: void;
+            result: undefined;
 
         };
 
