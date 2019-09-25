@@ -57,7 +57,7 @@ describe('module', () => {
             let remainingMinimalCycles = 50;
             let timeOneCycleAgo = null;
 
-            const cycle = (now) => {
+            const cycle = (now) => { // eslint-disable-line unicorn/consistent-function-scoping
                 try {
                     if (timeOneCycleAgo !== null) {
                         const elapsedTime = now - timeOneCycleAgo;
