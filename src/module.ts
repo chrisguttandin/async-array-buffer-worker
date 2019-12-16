@@ -2,8 +2,12 @@ import { TWorkerImplementation, createWorker } from 'worker-factory';
 import { allocate } from './helpers/allocate';
 import { IAsyncArrayBufferWorkerCustomDefinition } from './interfaces';
 
-export * from './interfaces';
-export * from './types';
+/*
+ * @todo Explicitly referencing the barrel file seems to be necessary when enabling the
+ * isolatedModules compiler option.
+ */
+export * from './interfaces/index';
+export * from './types/index';
 
 createWorker<IAsyncArrayBufferWorkerCustomDefinition>(self, <TWorkerImplementation<IAsyncArrayBufferWorkerCustomDefinition>> {
     allocate: ({ length }) => {
