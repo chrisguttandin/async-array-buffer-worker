@@ -54,7 +54,7 @@ describe('module', () => {
             this.timeout(20000);
 
             let receivedBuffer = null;
-            let remainingMinimalCycles = 50;
+            let numberOfCycles = 0;
             let timeOneCycleAgo = null;
 
             const cycle = (now) => { // eslint-disable-line unicorn/consistent-function-scoping
@@ -65,24 +65,21 @@ describe('module', () => {
                         // Allow the frame to be three times as long as an average frame.
                         expect(elapsedTime).to.be.below(millisecondsPerFrame * 3);
 
-                        remainingMinimalCycles -= 1;
-
-                        if (remainingMinimalCycles === 7) {
+                        if (numberOfCycles === 10) {
                             worker.postMessage({ id, method: 'allocate', params: { length } });
-                        } else if (receivedBuffer !== null && remainingMinimalCycles <= 0) {
-                            done();
                         }
+
+                        numberOfCycles += 1;
                     }
 
                     timeOneCycleAgo = now;
-
-                    requestAnimationFrame(cycle);
+                    requestId = requestAnimationFrame(cycle);
                 } catch (err) {
                     done(err);
                 }
             };
 
-            requestAnimationFrame(cycle);
+            let requestId = requestAnimationFrame(cycle);
 
             worker.addEventListener('message', ({ data }) => {
                 receivedBuffer = data.result;
@@ -93,6 +90,9 @@ describe('module', () => {
                     id,
                     result: receivedBuffer
                 });
+
+                cancelAnimationFrame(requestId);
+                done();
             });
         });
 
