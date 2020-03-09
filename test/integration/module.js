@@ -57,7 +57,7 @@ describe('module', () => {
             let numberOfCycles = 0;
             let timeOneCycleAgo = null;
 
-            const cycle = (now) => { // eslint-disable-line unicorn/consistent-function-scoping
+            const cycle = (now) => {
                 try {
                     if (timeOneCycleAgo !== null) {
                         const elapsedTime = now - timeOneCycleAgo;
