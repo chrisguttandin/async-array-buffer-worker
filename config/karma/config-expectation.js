@@ -58,18 +58,12 @@ module.exports = (config) => {
         config.set({
 
             browsers: [
-                'ChromeSauceLabs',
                 'SafariSauceLabs'
             ],
 
             captureTimeout: 480000,
 
             customLaunchers: {
-                ChromeSauceLabs: {
-                    base: 'SauceLabs',
-                    browserName: 'chrome',
-                    platform: 'OS X 10.13'
-                },
                 SafariSauceLabs: {
                     base: 'SauceLabs',
                     browserName: 'safari',
@@ -86,7 +80,6 @@ module.exports = (config) => {
         config.set({
 
             browsers: [
-                'ChromeHeadless',
                 'Safari'
             ],
 
