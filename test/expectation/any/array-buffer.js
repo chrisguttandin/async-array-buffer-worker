@@ -1,7 +1,5 @@
 describe('ArrayBuffer', () => {
-
     describe('constructor()', () => {
-
         let length;
 
         after((done) => {
@@ -38,7 +36,5 @@ describe('ArrayBuffer', () => {
 
             expect(currentNow - lastNow).to.be.below(100);
         });
-
     });
-
 });

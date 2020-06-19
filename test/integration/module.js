@@ -1,5 +1,4 @@
 describe('module', () => {
-
     let worker;
 
     after((done) => {
@@ -12,7 +11,6 @@ describe('module', () => {
     });
 
     describe('allocate()', () => {
-
         let id;
         let length;
         let millisecondsPerFrame;
@@ -95,11 +93,9 @@ describe('module', () => {
                 done();
             });
         });
-
     });
 
     describe('deallocate()', () => {
-
         let arrayBuffer;
 
         beforeEach(() => {
@@ -113,18 +109,17 @@ describe('module', () => {
                 done(new Error('This should never be called.'));
             });
 
-            worker.postMessage({
-                id: null,
-                method: 'deallocate',
-                params: { arrayBuffer }
-            }, [
-                arrayBuffer
-            ]);
+            worker.postMessage(
+                {
+                    id: null,
+                    method: 'deallocate',
+                    params: { arrayBuffer }
+                },
+                [arrayBuffer]
+            );
 
             // Wait some time to be sure that there is no response coming back from the worker.
             setTimeout(done, 2000);
         });
-
     });
-
 });

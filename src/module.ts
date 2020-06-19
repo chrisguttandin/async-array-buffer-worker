@@ -9,11 +9,11 @@ import { IAsyncArrayBufferWorkerCustomDefinition } from './interfaces';
 export * from './interfaces/index';
 export * from './types/index';
 
-createWorker<IAsyncArrayBufferWorkerCustomDefinition>(self, <TWorkerImplementation<IAsyncArrayBufferWorkerCustomDefinition>> {
+createWorker<IAsyncArrayBufferWorkerCustomDefinition>(self, <TWorkerImplementation<IAsyncArrayBufferWorkerCustomDefinition>>{
     allocate: ({ length }) => {
         const arrayBuffer = allocate(length);
 
-        return { result: arrayBuffer, transferables: [ arrayBuffer ] };
+        return { result: arrayBuffer, transferables: [arrayBuffer] };
     },
     deallocate: (/* arrayBuffer */) => {
         // Just accept the arrayBuffer.
