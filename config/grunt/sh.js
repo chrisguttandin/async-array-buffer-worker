@@ -18,8 +18,8 @@ module.exports = (grunt) => {
         'lint-test': {
             cmd: `eslint --config config/eslint/test.json --ext .js ${fix ? '--fix ' : ''}--report-unused-disable-directives test/`
         },
-        'test-expectation': {
-            cmd: `karma start config/karma/config-expectation.js ${continuous ? '--concurrency Infinity' : '--single-run'}`
+        'test-expectation-safari': {
+            cmd: `karma start config/karma/config-expectation-safari.js ${continuous ? '--concurrency Infinity' : '--single-run'}`
         },
         'test-integration': {
             cmd: `karma start config/karma/config-integration.js ${continuous ? '--concurrency Infinity' : '--single-run'}`
