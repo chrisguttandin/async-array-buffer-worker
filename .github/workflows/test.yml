@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - node: 14.x
+                    - node-version: 14.x
                       target: safari
                       type: expectation
                 node-version: [14.x]
