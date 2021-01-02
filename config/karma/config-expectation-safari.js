@@ -1,30 +1,23 @@
 const { env } = require('process');
+const { DefinePlugin } = require('webpack');
 
 module.exports = (config) => {
     config.set({
         basePath: '../../',
 
-        browserNoActivityTimeout: 420000,
+        browserDisconnectTimeout: 100000,
 
-        files: [
-            {
-                included: false,
-                pattern: 'src/**',
-                served: true,
-                watched: true
-            },
-            'test/expectation/any/**/*.js'
-        ],
+        browserNoActivityTimeout: 100000,
+
+        concurrency: 1,
+
+        files: ['test/expectation/safari/**/*.js'],
 
         frameworks: ['mocha', 'sinon-chai'],
 
-        mime: {
-            'text/x-typescript': ['ts', 'tsx']
-        },
-
         preprocessors: {
             'src/**/!(*.d).ts': 'webpack',
-            'test/expectation/any/**/*.js': 'webpack'
+            'test/expectation/safari/**/*.js': 'webpack'
         },
 
         webpack: {
@@ -39,6 +32,13 @@ module.exports = (config) => {
                     }
                 ]
             },
+            plugins: [
+                new DefinePlugin({
+                    'process.env': {
+                        CI: JSON.stringify(env.CI)
+                    }
+                })
+            ],
             resolve: {
                 extensions: ['.js', '.ts']
             }
@@ -49,27 +49,28 @@ module.exports = (config) => {
         }
     });
 
-    if (env.TRAVIS) {
+    if (env.CI) {
         config.set({
             browsers: ['SafariSauceLabs'],
 
-            captureTimeout: 480000,
+            captureTimeout: 300000,
 
             customLaunchers: {
                 SafariSauceLabs: {
                     base: 'SauceLabs',
                     browserName: 'safari',
-                    platform: 'OS X 10.13'
+                    captureTimeout: 300,
+                    platform: 'macOS 11.00'
                 }
             },
 
-            tunnelIdentifier: env.TRAVIS_JOB_NUMBER
+            sauceLabs: {
+                recordVideo: false
+            }
         });
     } else {
         config.set({
-            browsers: ['Safari'],
-
-            concurrency: 1
+            browsers: ['Safari']
         });
     }
 };
