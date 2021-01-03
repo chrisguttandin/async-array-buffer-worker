@@ -16,7 +16,6 @@ module.exports = (config) => {
         frameworks: ['mocha', 'sinon-chai'],
 
         preprocessors: {
-            'src/**/!(*.d).ts': 'webpack',
             'test/expectation/safari/**/*.js': 'webpack'
         },
 
