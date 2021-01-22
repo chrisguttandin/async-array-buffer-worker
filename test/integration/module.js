@@ -19,7 +19,7 @@ describe('module', () => {
             this.timeout(10000);
 
             id = 33;
-            length = 2147479551;
+            length = 400000000;
 
             // Wait some time to allow the browser to warm up.
             setTimeout(() => {
