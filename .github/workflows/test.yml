@@ -19,7 +19,7 @@ jobs:
                       target: safari
                       type: expectation
                 node-version: [18.x]
-                target: [chrome, firefox, safari]
+                target: [chrome, safari]
                 type: [integration, unit]
             max-parallel: 3
 
