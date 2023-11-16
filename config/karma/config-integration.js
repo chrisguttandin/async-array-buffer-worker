@@ -151,7 +151,9 @@ module.exports = (config) => {
                     ? ['ChromeSauceLabs']
                     : env.TARGET === 'firefox'
                     ? ['FirefoxSauceLabs']
-                    : ['ChromeSauceLabs', 'FirefoxSauceLabs'],
+                    : env.TARGET === 'safari'
+                    ? ['SafariSauceLabs']
+                    : ['ChromeSauceLabs', 'FirefoxSauceLabs', 'SafariSauceLabs'],
 
             captureTimeout: 300000,
 
@@ -168,6 +170,12 @@ module.exports = (config) => {
                     captureTimeout: 300,
                     geckodriverVersion: '0.30.0',
                     platform: 'macOS 12'
+                },
+                SafariSauceLabs: {
+                    base: 'SauceLabs',
+                    browserName: 'safari',
+                    captureTimeout: 300,
+                    platform: 'macOS 12'
                 }
             },
 
@@ -177,7 +185,7 @@ module.exports = (config) => {
         });
     } else {
         config.set({
-            browsers: ['ChromeCanaryHeadless', 'ChromeHeadless', 'FirefoxDeveloperHeadless', 'FirefoxHeadless']
+            browsers: ['ChromeCanaryHeadless', 'ChromeHeadless', 'FirefoxDeveloperHeadless', 'FirefoxHeadless', 'Safari']
         });
     }
 };
