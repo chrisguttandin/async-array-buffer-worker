@@ -2,11 +2,6 @@ describe('ArrayBuffer', () => {
     describe('constructor()', () => {
         let length;
 
-        after((done) => {
-            // @todo This is an optimistic fix to prevent the famous 'Some of your tests did a full page reload!' error.
-            setTimeout(done, 1000);
-        });
-
         beforeEach(() => {
             /*
              * 2147479551 is the largest possible length but an ArrayBuffer of that size can't be used by Chrome and Safari on

@@ -1,11 +1,6 @@
 describe('module', () => {
     let worker;
 
-    after((done) => {
-        // @todo This is an optimistic fix to prevent the famous 'Some of your tests did a full page reload!' error.
-        setTimeout(done, 1000);
-    });
-
     beforeEach(() => {
         worker = new Worker('base/src/module.js');
     });
